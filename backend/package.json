@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "food app",
   "main": "server.js",
+  "type": "module",
   "scripts": {
     "server": "nodemon server.js"
   },
