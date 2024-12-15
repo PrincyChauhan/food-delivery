@@ -35,9 +35,21 @@ const listFood = async (req, res) => {
 const deleteFood = async (req, res) => {
   try {
     const food = await foodModel.findById(req.body.id);
-    fs.unlink(`uploads/${food.image}`, async (err) => {});
-    await foodModel.findByIdAndDelete(req.body.id);
-    res.json({ success: true, message: "Food deleted successfully" });
+    fs.unlink(`uploads/${food.image}`, async (err) => {
+      if (err) {
+        console.error("Error deleting image file:", err);
+        return res.status(500).json({
+          success: false,
+          message: "Failed to delete food image",
+        });
+      }
+      await foodModel.findByIdAndDelete(req.body.id);
+
+      res.json({
+        success: true,
+        message: "Food deleted successfully",
+      });
+    });
   } catch (error) {
     console.log(error);
     res.json({ success: false, message: "Failed to delete food" });
