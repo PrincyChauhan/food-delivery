@@ -1,6 +1,6 @@
 import "./Orders.css";
 const Orders = () => {
-  return <div>Orders</div>;
+  return <div></div>;
 };
 
 export default Orders;
