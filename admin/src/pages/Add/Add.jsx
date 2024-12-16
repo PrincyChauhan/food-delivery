@@ -3,9 +3,9 @@ import { useState } from "react";
 import { assets } from "../../assets/assets";
 import "./Add.css";
 import { toast } from "react-toastify";
+import PropTypes from "prop-types";
 
-const Add = () => {
-  const url = "http://localhost:4000";
+const Add = ({ url }) => {
   const [image, setImage] = useState(false);
   const [data, setData] = useState({
     name: "",
@@ -116,6 +116,9 @@ const Add = () => {
       </form>
     </div>
   );
+};
+Add.propTypes = {
+  url: PropTypes.string.isRequired,
 };
 
 export default Add;

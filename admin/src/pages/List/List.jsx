@@ -1,15 +1,13 @@
 import { useEffect, useState } from "react";
+import PropTypes from "prop-types";
 import "./List.css";
 import axios from "axios";
 import { toast } from "react-toastify";
 
-const List = () => {
-  const url = "http://localhost:4000";
-
+const List = ({ url }) => {
   const [list, setList] = useState([]);
   const fetchList = async () => {
     const response = await axios.get(`${url}/api/food/list`);
-    console.log(response, "---------------------");
     if (response.data.success) {
       setList(response.data.data);
     } else {
@@ -60,6 +58,9 @@ const List = () => {
       </div>
     </div>
   );
+};
+List.propTypes = {
+  url: PropTypes.string.isRequired,
 };
 
 export default List;
