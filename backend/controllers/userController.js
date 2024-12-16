@@ -3,7 +3,31 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import validator from "validator";
 
-const loginUser = async (req, res) => {};
+const loginUser = async (req, res) => {
+  const { email, password } = req.body;
+  try {
+    const user = await userModel.findOne({ email });
+    if (!user) {
+      return res
+        .status(400)
+        .json({ success: false, message: "User Doesn't exist" });
+    }
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) {
+      return res.json({
+        success: false,
+        message: "Invalid Credentials",
+      });
+    }
+    const token = createToken(user._id);
+    return res
+      .status(200)
+      .json({ success: true, message: "Login Successfully", token });
+  } catch (error) {
+    console.log(error);
+    res.json({ success: false, message: "Error" });
+  }
+};
 
 const createToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: "30d" });
