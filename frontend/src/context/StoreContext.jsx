@@ -1,27 +1,39 @@
-import { createContext, useEffect, useState } from "react";
+import { createContext, useState } from "react";
 import { food_list } from "../assets/assets.js";
 import PropTypes from "prop-types";
 
 export const StoreContext = createContext(null);
 
 const StoreContextProvider = (props) => {
-  const [cartItems, setCartItems] = useState({});
+  const defaultCart = food_list.reduce((acc, item) => {
+    acc[item._id] = 0;
+    return acc;
+  }, {});
+  const [cartItems, setCartItems] = useState(defaultCart);
 
   const addToCart = (itemId) => {
-    if (!cartItems[itemId]) {
-      setCartItems((prev) => ({ ...prev, [itemId]: 1 }));
-    } else {
-      setCartItems((prev) => ({ ...prev, [itemId]: prev[itemId] + 1 }));
-    }
+    setCartItems((prev) => ({ ...prev, [itemId]: prev[itemId] + 1 }));
   };
 
   const removeFromCart = (itemId) => {
-    setCartItems((prev) => ({ ...prev, [itemId]: prev[itemId] - 1 }));
+    setCartItems((prev) => {
+      const newCount = prev[itemId] - 1;
+      return { ...prev, [itemId]: Math.max(newCount, 0) }; // Prevent negative values
+    });
   };
 
-  useEffect(() => {
-    console.log(cartItems);
-  }, [cartItems]);
+  const getTotalCartAmount = () => {
+    let totalAmount = 0;
+    for (const item in cartItems) {
+      if (cartItems[item] > 0) {
+        let itemInfo = food_list.find((product) => product._id === item);
+        if (itemInfo) {
+          totalAmount += itemInfo.price * cartItems[item];
+        }
+      }
+    }
+    return totalAmount;
+  };
 
   const contextValue = {
     food_list,
@@ -29,13 +41,16 @@ const StoreContextProvider = (props) => {
     setCartItems,
     addToCart,
     removeFromCart,
+    getTotalCartAmount,
   };
+
   return (
     <StoreContext.Provider value={contextValue}>
       {props.children}
     </StoreContext.Provider>
   );
 };
+
 StoreContextProvider.propTypes = {
   children: PropTypes.node.isRequired,
 };
