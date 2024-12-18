@@ -8,45 +8,47 @@ const Navbar = ({ setShowLogin }) => {
 
   return (
     <div className="navbar">
-      <img src={assets.logo} alt="" className="logo" />
+      <Link to="/">
+        {" "}
+        <img src={assets.logo} alt="" className="logo" />
+      </Link>
+
       <ul className="navbar-menu">
         <Link
           to="/"
           onClick={() => setMenu("Home")}
           className={menu === "Home" ? "active" : ""}
         >
-          {" "}
-          Home{" "}
+          Home
         </Link>
         <a
           href="#explore-menu"
           onClick={() => setMenu("Menu")}
           className={menu === "Menu" ? "active" : ""}
         >
-          {" "}
-          Menu{" "}
+          Menu
         </a>
         <a
           href="#app-download"
           onClick={() => setMenu("Mobile App")}
           className={menu === "Mobile App" ? "active" : ""}
         >
-          {" "}
-          Mobile App{" "}
+          Mobile App
         </a>
         <a
           href="#footer"
           onClick={() => setMenu("Contact Us")}
           className={menu === "Contact Us" ? "active" : ""}
         >
-          {" "}
-          Contact Us{" "}
+          Contact Us
         </a>
       </ul>
       <div className="navbar-right">
         <img src={assets.search_icon} alt="search_icon" />
         <div className="navbar-search-icon">
-          <img src={assets.basket_icon} alt="basket_icon" />
+          <Link to="/cart">
+            <img src={assets.basket_icon} alt="basket_icon" />
+          </Link>
           <div className="dot"></div>
         </div>
         <button onClick={() => setShowLogin(true)}>Sign In</button>
