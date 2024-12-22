@@ -118,7 +118,7 @@
   display: none;
 }
 
-.nav-profile:hover .nav-profile-dropdown {
+.navbar-profile:hover .nav-profile-dropdown {
   display: flex;
   flex-direction: column;
   gap: 10px;
