@@ -2,7 +2,7 @@ import userModel from "../models/userModels.js";
 
 const addToCart = async (req, res) => {
   try {
-    let userData = await userModel.findById(req.body.user);
+    let userData = await userModel.findById(req.body.userId);
     let cartData = await userData.cartData;
     if (!cartData[req.body.itemId]) {
       cartData[req.body.itemId] = 1;
